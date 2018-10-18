@@ -8,7 +8,7 @@ import (
 var tpl *template.Template
 
 func init() {
-	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))//remember to make it and equal sign not a period
 }
 
 func main() {
