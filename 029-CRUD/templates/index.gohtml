@@ -1,0 +1,28 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HOME</title>
+</head>
+
+<body>
+
+    <h1>HOME</h1>
+
+    {{range .}}
+    <h1>ID - {{.ID}}...... FIRST - {{.First}} .. <a href="/update?recordid={{.ID}}">UPDATE</a> .. <a href="/delete?recordid={{.ID}}">DELETE</a></h1>
+    {{end}}
+
+
+    <img src="/assets/img/dog.jpg" alt="">
+
+    <form action="/process" method="post">
+        <label for="firstname">First Name Here</label>
+        <input type="text" id="firstname" name="fname">
+        <input type="submit">
+    </form>
+</body>
+
+</html>
