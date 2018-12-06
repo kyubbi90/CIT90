@@ -16,7 +16,6 @@ type customer struct {
 }
 
 var tpl *template.Template
-var connStr string
 var db *sql.DB
 
 func init() {
@@ -24,7 +23,7 @@ func init() {
 
 	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
 
-	connStr = "dbname=thanksgiving user=turkey password=gravy host=localhost port=5432 sslmode=disable"
+	connStr := "dbname=thanksgiving user=turkey password=gravy host=localhost port=5432 sslmode=disable"
 	db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal("**** NO OPEN ****", err)
@@ -103,7 +102,7 @@ func up(w http.ResponseWriter, r *http.Request) {
 
 	customerid := r.FormValue("recordid")
 
-	row, err := db.Query("SELECT * FROM customers WHERE cid = $1", customerid)
+	row, err := db.Query("SELECT * FROM customers WHERE id = $1", customerid)
 	if err != nil {
 		http.Error(w, "couldnt retrieve record in up", http.StatusInternalServerError)
 		return
@@ -129,7 +128,7 @@ func ptoo(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(id)
 	fmt.Println(fn)
 
-	result, err := db.Exec("UPDATE customers SET cfirst =$2 WHERE cid = $1;", id, fn)
+	result, err := db.Exec("UPDATE customers SET cfirst =$2 WHERE id = $1;", id, fn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -147,15 +146,15 @@ func ptoo(w http.ResponseWriter, r *http.Request) {
 
 //DELETE
 func del(w http.ResponseWriter, r *http.Request) {
-
+fmt.Println("line 149")
 	if r.Method != http.MethodGet {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-
+	fmt.Println("line 154")
 	customerid := r.FormValue("recordid")
-
-	result, err := db.Exec("DELETE FROM customers WHERE cid = $1;", customerid)
+	fmt.Println("line 156", customerid)
+	result, err := db.Exec("DELETE FROM customers WHERE id = $1;", customerid)
 	if err != nil {
 		http.Error(w, "didnt delete", http.StatusInternalServerError)
 		return
